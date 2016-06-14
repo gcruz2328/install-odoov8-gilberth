@@ -1,7 +1,7 @@
 #!/bin/bash
 ################################################################################
 # Script for Installation: ODOO Saas4/Trunk server on Ubuntu 14.04 LTS
-# Author: André Schenkels, ICTSTUDIO 2014
+# Author: Gilberth cruz
 #-------------------------------------------------------------------------------
 #  
 # This script will install ODOO Server on
@@ -18,7 +18,7 @@
  
 ##fixed parameters
 #openerp
-OE_USER="odoo"
+OE_USER="Openerp"
 OE_HOME="/opt/$OE_USER"
 OE_HOME_EXT="/opt/$OE_USER/$OE_USER-server"
 
@@ -49,7 +49,7 @@ echo -e "\n---- Install PostgreSQL Server ----"
 sudo apt-get install postgresql -y
 	
 echo -e "\n---- PostgreSQL $PG_VERSION Settings  ----"
-sudo sed -i s/"#listen_addresses = 'localhost'"/"listen_addresses = '*'"/g /etc/postgresql/9.3/main/postgresql.conf
+sudo sed -i s/"#listen_addresses = '190.131.206.188'"/"listen_addresses = '*'"/g /etc/postgresql/9.3/main/postgresql.conf
 
 echo -e "\n---- Creating the ODOO PostgreSQL User  ----"
 sudo su - postgres -c "createuser -s $OE_USER" 2> /dev/null || true
@@ -73,7 +73,7 @@ sudo cp /usr/local/bin/wkhtmltopdf /usr/bin
 sudo cp /usr/local/bin/wkhtmltoimage /usr/bin
 	
 echo -e "\n---- Create ODOO system user ----"
-sudo adduser --system --quiet --shell=/bin/bash --home=$OE_HOME --gecos 'ODOO' --group $OE_USER
+sudo adduser --system --quiet --shell=/bin/bash --home=$OE_HOME --gecos 'Openerp' --group $OE_USER
 
 echo -e "\n---- Create Log directory ----"
 sudo mkdir /var/log/$OE_USER
@@ -83,7 +83,7 @@ sudo chown $OE_USER:$OE_USER /var/log/$OE_USER
 # Install ODOO
 #--------------------------------------------------
 echo -e "\n==== Installing ODOO Server ===="
-sudo git clone --branch $OE_VERSION https://www.github.com/odoo/odoo $OE_HOME_EXT/
+sudo Git clone https://www.github.com/odoo/odoo --depth 1 --branch 8,0 $OE_HOME_EXT/
 
 echo -e "\n---- Create custom module directory ----"
 sudo su $OE_USER -c "mkdir $OE_HOME/custom"
@@ -109,7 +109,7 @@ sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME_EXT/openerp-server --config=/et
 sudo chmod 755 $OE_HOME_EXT/start.sh
 
 #--------------------------------------------------
-# Adding ODOO as a deamon (initscript)
+# initscript
 #--------------------------------------------------
 
 echo -e "* Create init file"
@@ -130,7 +130,7 @@ echo "DAEMON=$OE_HOME_EXT/openerp-server" >> ~/$OE_CONFIG
 echo "NAME=$OE_CONFIG" >> ~/$OE_CONFIG
 echo "DESC=$OE_CONFIG" >> ~/$OE_CONFIG
 echo '' >> ~/$OE_CONFIG
-echo '# Specify the user name (Default: odoo).' >> ~/$OE_CONFIG
+echo '# Specify the user name (Default: Openerp).' >> ~/$OE_CONFIG
 echo "USER=$OE_USER" >> ~/$OE_CONFIG
 echo '' >> ~/$OE_CONFIG
 echo '# Specify an alternate config file (Default: /etc/openerp-server.conf).' >> ~/$OE_CONFIG
